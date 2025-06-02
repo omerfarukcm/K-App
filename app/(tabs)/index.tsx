@@ -1,75 +1,101 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import data from "@/assets/data.json";
+import CarouselCardItem from "@/components/CarouselCardItem";
+import CartItem from "@/components/CartItem";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { useRef, useState } from "react";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Extrapolate, interpolate } from "react-native-reanimated";
+import Carousel from "react-native-reanimated-carousel";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// Eklenenler:
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const PAGE_WIDTH = windowWidth * 0.8; // Sayfa genişliğini ekran genişliğinin %80'i olarak ayarladık
+const PAGE_HEIGHT = windowHeight * 0.4; // Carousel yüksekliğini sabit tuttuk
 
-export default function HomeScreen() {
+const snapPoints = ["50%", "100%"];
+
+export default function Index() {
+  const sheetRef = useRef<BottomSheet>(null);
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.screenOne}>
+          <View>
+            <Carousel
+              loop={true}
+              width={PAGE_WIDTH}
+              height={PAGE_HEIGHT} // Yüksekliği de belirttik
+              data={data}
+              renderItem={({ item }) => <CarouselCardItem item={item} />}
+              // useAnimatedStyle ile özel animasyonu oluşturuyoruz
+              customAnimation={(value) => {
+                "worklet";
+
+                const translateX = interpolate(
+                  value,
+                  [-1, 0, 1],
+                  [-PAGE_WIDTH / 2, 0, PAGE_WIDTH / 2], // Kaydırma miktarı
+                  Extrapolate.CLAMP
+                );
+
+                const scale = interpolate(
+                  value,
+                  [-1, 0, 1],
+                  [0.8, 1, 0.8], // Ortadaki eleman 1, yanlardakiler 0.8
+                  Extrapolate.CLAMP
+                );
+
+                const opacity = interpolate(
+                  value,
+                  [-1, 0, 1],
+                  [0.6, 1, 0.6], // Ortadaki eleman daha belirgin
+                  Extrapolate.CLAMP
+                );
+
+                return {
+                  transform: [{ translateX }, { scale }],
+                  opacity,
+                };
+              }}
+              scrollAnimationDuration={1200}
+            />
+          </View>
+        </View>
+        <BottomSheet
+          ref={sheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose={false}
+        >
+          <BottomSheetView>
+            <FlatList
+              data={data}
+              renderItem={({ item }) => <CartItem item={item} />}
+              keyExtractor={(item) => item.id.toString()}
+              numColumns={2}
+            />
+          </BottomSheetView>
+        </BottomSheet>
+      </View>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  screenOne: {
+    flexDirection: "row", // Bu satırı koruyabilirsiniz
+    height: Dimensions.get("window").height * 0.5,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  screenTwo: {
+    height: Dimensions.get("window").height * 0.5,
+    backgroundColor: "green",
   },
 });
