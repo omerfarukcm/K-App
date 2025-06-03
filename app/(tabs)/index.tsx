@@ -1,6 +1,7 @@
 import data from "@/assets/data.json";
 import CarouselCardItem from "@/components/CarouselCardItem";
 import CartItem from "@/components/CartItem";
+import { useTheme } from "@/context/ThemeContext";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { Dimensions, FlatList, StyleSheet, View } from "react-native";
@@ -18,19 +19,19 @@ const snapPoints = ["50%", "100%"];
 
 export default function Index() {
   const sheetRef = useRef<BottomSheet>(null);
+  const { theme } = useTheme();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={styles.screenOne}>
           <View>
             <Carousel
               loop={true}
               width={PAGE_WIDTH}
-              height={PAGE_HEIGHT} // Yüksekliği de belirttik
+              height={PAGE_HEIGHT}
               data={data}
               renderItem={({ item }) => <CarouselCardItem item={item} />}
-              // useAnimatedStyle ile özel animasyonu oluşturuyoruz
               customAnimation={(value) => {
                 "worklet";
 
@@ -68,13 +69,16 @@ export default function Index() {
           ref={sheetRef}
           snapPoints={snapPoints}
           enablePanDownToClose={false}
+          backgroundStyle={{ backgroundColor: theme.background }}
+          handleIndicatorStyle={{ backgroundColor: theme.text }}
         >
-          <BottomSheetView style={styles.bottomSheet}>
+          <BottomSheetView style={[styles.bottomSheet, { backgroundColor: theme.background }]}>
             <FlatList
               data={data}
               renderItem={({ item }) => <CartItem item={item} />}
               keyExtractor={(item) => item.id.toString()}
               numColumns={2}
+              contentContainerStyle={{ backgroundColor: theme.background }}
             />
           </BottomSheetView>
         </BottomSheet>

@@ -1,5 +1,6 @@
 import data from "@/assets/data.json";
 import images from "@/constant/images";
+import { useTheme } from "@/context/ThemeContext";
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
@@ -8,9 +9,13 @@ const windowHeight = Dimensions.get("window").height;
 
 const CartItem = ({ item }: { item: any }) => {
   const card = data.find((a) => a.id === item.id);
+  const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { 
+      backgroundColor: theme.background,
+      borderColor: theme.text,
+    }]}>
       <View style={styles.imageContainer}>
         {card?.image && (
           <Image
@@ -21,10 +26,10 @@ const CartItem = ({ item }: { item: any }) => {
         )}
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name} numberOfLines={1}>
+        <Text style={[styles.name, { color: theme.text }]} numberOfLines={1}>
           {card?.name}
         </Text>
-        <Text>{card?.year}</Text>
+        <Text style={{ color: theme.text }}>{card?.year}</Text>
       </View>
     </View>
   );
@@ -56,6 +61,5 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontFamily: "NotoSans-Regular",
-    color: "black",
   },
 });

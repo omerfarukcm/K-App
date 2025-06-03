@@ -1,3 +1,4 @@
+import { useTheme } from "@/context/ThemeContext";
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, Switch, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -11,19 +12,22 @@ const data = [
 ];
 
 const Setting = () => {
-  const [isSwitch, setIsSwitch] = useState(true);
+  const { theme, isDarkMode, toggleTheme } = useTheme();
   const [selected, setSelectedValue] = useState("Türkçe");
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={styles.choose}>
         <View style={styles.theme}>
-          <Text style={styles.themeText}>Karanlık Mod</Text>
-          <Switch value={isSwitch} onValueChange={setIsSwitch} />
+          <Text style={[styles.themeText, { color: theme.text }]}>Karanlık Mod</Text>
+          <Switch
+            value={isDarkMode}
+            onValueChange={toggleTheme}
+          />
         </View>
         <View style={styles.language}>
           <Dropdown
-            style={[styles.dropdown, selected && { borderColor: "blue" }]}
+            style={[styles.dropdown, { borderColor: theme.text }]}
             data={data}
             maxHeight={300}
             labelField="label"
@@ -32,8 +36,7 @@ const Setting = () => {
             onFocus={() => setSelectedValue("Türkçe")}
             onBlur={() => setSelectedValue("Türkçe")}
             onChange={(item) => {
-              setValue(item.value);
-              setSelectedValue("Türkçe");
+              setSelectedValue(item.value);
             }}
           />
         </View>
@@ -60,5 +63,13 @@ const styles = StyleSheet.create({
   themeText: {
     fontSize: 16,
   },
-  language: {},
+  language: {
+    width: "100%",
+  },
+  dropdown: {
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
 });

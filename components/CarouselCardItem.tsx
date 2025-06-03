@@ -1,6 +1,7 @@
 import aston from "@/assets/images/aston-martin-vantage-gte.jpg";
 import bently from "@/assets/images/bently-continental-gt3.jpg";
 import japan from "@/assets/images/japan.jpg";
+import { useTheme } from "@/context/ThemeContext";
 import React from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 
@@ -19,8 +20,10 @@ const imageMap: { [key: string]: any } = {
 
 const CarouselCardItem = ({ item }: { item: { image: string } }) => {
   const source = imageMap[item.image];
+  const { theme } = useTheme();
+  
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: theme.background }]}>
       <Image source={source} style={styles.image} />
     </View>
   );
@@ -35,8 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 25, // Köşe yuvarlama
     justifyContent: "center",
     alignItems: "center",
-    // Arka plan rengini görselden ayırmak için ekleyebilirsiniz
-    backgroundColor: "#ccc",
+    borderWidth: 1,
   },
   image: {
     width: "100%", // Kartın genişliği kadar
