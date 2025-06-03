@@ -2,7 +2,7 @@ import data from "@/assets/data.json";
 import CarouselCardItem from "@/components/CarouselCardItem";
 import CartItem from "@/components/CartItem";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Extrapolate, interpolate } from "react-native-reanimated";
@@ -18,7 +18,6 @@ const snapPoints = ["50%", "100%"];
 
 export default function Index() {
   const sheetRef = useRef<BottomSheet>(null);
-  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -70,7 +69,7 @@ export default function Index() {
           snapPoints={snapPoints}
           enablePanDownToClose={false}
         >
-          <BottomSheetView>
+          <BottomSheetView style={styles.bottomSheet}>
             <FlatList
               data={data}
               renderItem={({ item }) => <CartItem item={item} />}
@@ -89,13 +88,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   screenOne: {
-    flexDirection: "row", // Bu satırı koruyabilirsiniz
-    height: Dimensions.get("window").height * 0.5,
+    flexDirection: "row",
+    height: windowHeight * 0.5,
     justifyContent: "center",
     alignItems: "center",
   },
   screenTwo: {
-    height: Dimensions.get("window").height * 0.5,
+    height: windowHeight * 0.5,
     backgroundColor: "green",
+  },
+  bottomSheet: {
+    padding: windowWidth * 0.02,
   },
 });
