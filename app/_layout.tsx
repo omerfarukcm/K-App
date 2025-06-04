@@ -5,7 +5,7 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 function RootLayoutNav() {
@@ -24,9 +24,13 @@ function RootLayoutNav() {
         { backgroundColor: theme.background },
       ]}
     >
+      <StatusBar
+        barStyle={theme.mode === "dark" ? "light-content" : "dark-content"}
+      />
       <SafeAreaView style={StyleSheet.absoluteFillObject}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="details" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaView>
     </View>

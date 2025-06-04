@@ -1,6 +1,7 @@
 import data from "@/assets/data.json";
 import images from "@/constant/images";
 import { useTheme } from "@/context/ThemeContext";
+import { Link } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
@@ -23,21 +24,23 @@ const CartItem = ({ item }: { item: any }) => {
         },
       ]}
     >
-      <View style={styles.imageContainer}>
-        {card?.image && (
-          <Image
-            source={images[card.image as keyof typeof images]}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        )}
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.name, { color: theme.text }]} numberOfLines={1}>
-          {t(`cars.${card?.name}`)}
-        </Text>
-        <Text style={{ color: theme.text }}>{card?.year}</Text>
-      </View>
+      <Link href={`/details/${card?.id}`}>
+        <View style={styles.imageContainer}>
+          {card?.image && (
+            <Image
+              source={images[card.image as keyof typeof images]}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          )}
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.name, { color: theme.text }]} numberOfLines={1}>
+            {t(`cars.${card?.name}`)}
+          </Text>
+          <Text style={{ color: theme.text }}>{card?.year}</Text>
+        </View>
+      </Link>
     </View>
   );
 };

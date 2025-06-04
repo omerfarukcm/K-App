@@ -3,21 +3,21 @@
         "id":0,
         "name":"Bently Continental GT3",
         "year": 2018,
-        "box":"Mevcut Değil",
+        "box":"Yok",
         "image":"bently-continental-gt3.jpg"
     },
     {
         "id":2,
         "name": "Aston Martin Vantage GTE",
         "year": null,
-        "box":"Mevcut Değil",
+        "box":"Yok",
         "image":"aston-martin-vantage-gte.jpg"
     },
     {
         "id":3,
         "name":"Dodge Van",
         "year": null,
-        "box":"Mevcut Değil",
+        "box":"Yok",
         "image":"japan.jpg"
     }
 ]
