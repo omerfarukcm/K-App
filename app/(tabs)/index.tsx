@@ -72,7 +72,9 @@ export default function Index() {
           backgroundStyle={{ backgroundColor: theme.background }}
           handleIndicatorStyle={{ backgroundColor: theme.text }}
         >
-          <BottomSheetView style={[styles.bottomSheet, { backgroundColor: theme.background }]}>
+          <BottomSheetView
+            style={[styles.bottomSheet, { backgroundColor: theme.background }]}
+          >
             <FlatList
               data={data}
               renderItem={({ item }) => <CartItem item={item} />}

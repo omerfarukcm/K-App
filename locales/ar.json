@@ -1,0 +1,11 @@
+{
+    "cars": {
+        "Bently Continental GT3": "بنتلي كونتيننتال GT3",
+        "Aston Martin Vantage GTE": "أستون مارتن فانتاج GTE",
+        "Dodge Van": "دودج فان"
+    },
+    "settings": {
+        "darkMode": "الوضع الداكن",
+        "language": "اختيار اللغة"
+    }
+}

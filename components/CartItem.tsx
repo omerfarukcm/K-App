@@ -2,6 +2,7 @@ import data from "@/assets/data.json";
 import images from "@/constant/images";
 import { useTheme } from "@/context/ThemeContext";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
@@ -10,12 +11,18 @@ const windowHeight = Dimensions.get("window").height;
 const CartItem = ({ item }: { item: any }) => {
   const card = data.find((a) => a.id === item.id);
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   return (
-    <View style={[styles.container, { 
-      backgroundColor: theme.background,
-      borderColor: theme.text,
-    }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.background,
+          borderColor: theme.text,
+        },
+      ]}
+    >
       <View style={styles.imageContainer}>
         {card?.image && (
           <Image
@@ -27,7 +34,7 @@ const CartItem = ({ item }: { item: any }) => {
       </View>
       <View style={styles.textContainer}>
         <Text style={[styles.name, { color: theme.text }]} numberOfLines={1}>
-          {card?.name}
+          {t(`cars.${card?.name}`)}
         </Text>
         <Text style={{ color: theme.text }}>{card?.year}</Text>
       </View>
