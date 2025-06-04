@@ -1,5 +1,5 @@
 import { useTheme } from "@/context/ThemeContext";
-import i18next from "@/services/i18next";
+import i18next, { changeLanguage } from "@/services/i18next";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet, Switch, Text, View } from "react-native";
@@ -18,9 +18,9 @@ const Setting = () => {
   const [selected, setSelectedValue] = useState(i18next.language);
   const { t } = useTranslation();
 
-  const handleLanguageChange = (item: { value: string }) => {
+  const handleLanguageChange = async (item: { value: string }) => {
     setSelectedValue(item.value);
-    i18next.changeLanguage(item.value);
+    await changeLanguage(item.value);
   };
 
   return (
