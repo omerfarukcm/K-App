@@ -8,7 +8,6 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
-.vscode
 
 # Native
 .kotlin/
@@ -31,6 +30,12 @@ yarn-error.*
 .DS_Store
 *.pem
 
+#Android
+/Android
+
+#IOS
+/ios
+
 # local env files
 .env*.local
 
@@ -40,3 +45,10 @@ yarn-error.*
 app-example
 
 .vscode/
+
+# IDE - VSCode
+.vscode/
+
+# Native directories
+android/
+ios/
