@@ -2,12 +2,12 @@ import { useTheme } from "@/context/ThemeContext";
 import i18next, { changeLanguage } from "@/services/i18next";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, StyleSheet, Switch, Text, View } from "react-native";
+import { StyleSheet, Switch, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { windowHeight, windowWidth } from "@/constant/measurement";
+import { dataProps } from "@/types/setting";
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-const data = [
+const data: dataProps[] = [
   { label: "Türkçe", value: "tr" },
   { label: "İngilizce", value: "en" },
   { label: "Arapça", value: "ar" },
@@ -15,7 +15,7 @@ const data = [
 
 const Setting = () => {
   const { theme, isDarkMode, toggleTheme } = useTheme();
-  const [selected, setSelectedValue] = useState(i18next.language);
+  const [selected, setSelectedValue] = useState<string>(i18next.language);
   const { t } = useTranslation();
 
   const handleLanguageChange = async (item: { value: string }) => {

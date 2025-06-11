@@ -5,11 +5,10 @@ import { Link } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { CartItem } from "@/types/components";
+import { windowWidth, windowHeight } from "@/constant/measurement";
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-
-const CartItem = ({ item }: { item: any }) => {
+const CartItemComponent = ({ item }: CartItem) => {
   const card = data.find((a) => a.id === item.id);
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -45,7 +44,7 @@ const CartItem = ({ item }: { item: any }) => {
   );
 };
 
-export default CartItem;
+export default CartItemComponent;
 
 const styles = StyleSheet.create({
   container: {

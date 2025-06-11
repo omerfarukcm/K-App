@@ -8,10 +8,10 @@ import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Extrapolate, interpolate } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+import { windowHeight, windowWidth } from "@/constant/measurement";
+import { CarData } from "@/types/id";
 
 // Eklenenler:
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const PAGE_WIDTH = windowWidth * 0.8; // Sayfa genişliğini ekran genişliğinin %80'i olarak ayarladık
 const PAGE_HEIGHT = windowHeight * 0.4; // Carousel yüksekliğini sabit tuttuk
 
@@ -20,6 +20,8 @@ const snapPoints = ["50%", "100%"];
 export default function Index() {
   const sheetRef = useRef<BottomSheet>(null);
   const { theme } = useTheme();
+
+  const typeData = data as CarData[];
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -30,8 +32,10 @@ export default function Index() {
               loop={true}
               width={PAGE_WIDTH}
               height={PAGE_HEIGHT}
-              data={data}
-              renderItem={({ item }) => <CarouselCardItem item={item} />}
+              data={typeData}
+              renderItem={({ item }: { item: CarData }) => (
+                <CarouselCardItem item={item} />
+              )}
               customAnimation={(value) => {
                 "worklet";
 
@@ -76,8 +80,10 @@ export default function Index() {
             style={[styles.bottomSheet, { backgroundColor: theme.background }]}
           >
             <FlatList
-              data={data}
-              renderItem={({ item }) => <CartItem item={item} />}
+              data={typeData}
+              renderItem={({ item }: { item: CarData }) => (
+                <CartItem item={item} />
+              )}
               keyExtractor={(item) => item.id.toString()}
               numColumns={2}
               contentContainerStyle={{ backgroundColor: theme.background }}

@@ -4,16 +4,15 @@ import { useTheme } from "@/context/ThemeContext";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-
-const height = Dimensions.get("window").height;
-const width = Dimensions.get("window").width;
+import { Image, StyleSheet, Text, View } from "react-native";
+import { windowWidth, windowHeight } from "@/constant/measurement";
+import { ImageKeys, CarData } from "@/types/id";
 
 const DetailPage = () => {
   const { id } = useLocalSearchParams();
   const { theme } = useTheme();
 
-  const data = Data.find((a) => a.id === Number(id));
+  const data = (Data as CarData[]).find((a) => a.id === Number(id));
 
   if (!data) {
     return null;
@@ -51,13 +50,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: height * 0.5,
+    height: windowHeight * 0.5,
   },
   texts: {
     fontSize: 20,
   },
   textCanter: {
-    padding: width * 0.02,
+    padding: windowWidth * 0.02,
   },
   year: {
     fontSize: 17,
